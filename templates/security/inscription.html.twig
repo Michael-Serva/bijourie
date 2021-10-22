@@ -1,0 +1,37 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+	{{ parent() }}
+	| Inscription
+{% endblock %}
+
+{% block stylesheets %}
+	<link rel="stylesheet" href="{{ asset("css/inscription.css") }}">
+{% endblock %}
+
+{% block h1 %}Inscription
+{% endblock %}
+
+{% block body %}
+
+	<div class="col-md-4 mx-auto">
+
+		{{ form_start(formUser) }}
+
+		{{ form_row(formUser.email) }}
+
+		{{ form_row(formUser.password.first) }}
+
+		{{ form_row(formUser.password.second) }}
+
+		{{ form_row(formUser.nom) }}
+
+		{{ form_row(formUser.prenom) }}
+
+		<input type="submit" value="Inscription" class="btn btn-warning col-md-12 mt-3">
+
+		{{ form_end(formUser) }}
+
+	</div>
+
+{% endblock %}

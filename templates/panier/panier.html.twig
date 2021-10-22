@@ -1,0 +1,108 @@
+{% extends "base.html.twig" %}
+
+{% block title %}{{ parent() }} | Panier{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset("css/panier.css") }}">
+{% endblock %}
+
+{% block h1 %}Panier{% endblock %}
+
+{% block body %}
+
+
+{% if panier.id_produit is defined and panier.id_produit|length > 0 %}
+    
+    <table class="table table-hover table-striped table-white text-center mt-4">
+
+        <thead class="bg-dark text-white">
+        
+            <tr>
+
+                <th>Titre</th>
+                <th>Quantité</th>
+                <th>Prix (€)</th>
+                <th>Total (€)</th>
+                <th>Supprimer</th>
+            
+            
+            </tr>
+        
+        </thead>
+
+        <tbody>
+
+            {% set count = panier.id_produit|length - 1 %}
+
+            {% for i in 0.. count %}
+                
+                <tr>
+                
+                    <td>{{ panier.titre[i] }}</td>
+                
+                    <td>
+                    {% if panier.quantite[i] == 0 %}
+                        <span class="text-danger">Rupture de stock</span>
+                    {% else %}
+                        {{ panier.quantite[i] }}
+                    {% endif %}
+                    
+                    </td>
+
+                    <td>{{ panier.prix[i] }}</td>
+
+                    <td>
+                    {% if panier.quantite[i] > 0 %}
+                        {{ panier.prix[i] *  panier.quantite[i] }} 
+                    {% endif %}
+                    
+                    </td>
+
+                    <td>
+                        <a href="{{ path('panier_remove', {'id' : panier.id_produit[i] } ) }}">
+                            <img src="{{ asset('images/delete.png') }}" alt="">
+                        </a>
+                    </td>
+                
+                </tr>
+
+            {% endfor %}
+
+                <tr class="bg-dark text-white">
+
+                    <td>Total</td>
+                    <td colspan="2"></td>
+                    <td>{{total}} €</td>
+                    <td>
+                        <a class="btn btn-warning" href="{{ path('panier_vider') }}">Vider le panier</a>
+                    </td>
+                
+                
+                </tr>
+        
+        
+        </tbody>
+    
+    </table>
+
+
+
+    {% if app.user %}
+
+    <a class="btn btn-success col-md-3" href="{{ path('panier_payer') }}">Payer</a>
+        
+    {% else %}
+        <h4>Pour valider le paiement :</h4>
+        <h4>Veuillez vous <a href="{{ path('connexion')}}">connecter</a></h4>
+        <h4>Veuillez vous <a href="{{ path('inscription')}}">inscrire</a></h4>
+    {% endif %}
+
+{% else %}
+
+    <h4 class="text-center text-danger fst-italic">Panier vide</h4>
+
+{% endif %}
+
+
+{% endblock %}
+

@@ -1,0 +1,31 @@
+.titreProduit{
+    border: 2px solid red;
+}
+
+
+.prixProduit{
+    border: 2px dashed blue;
+}
+
+.form-error-icon
+{
+    display: none;
+}
+
+.form-error-message
+{
+    
+    text-align: center;
+    color:blue;
+}
+.invalid-feedback
+{
+    display: block;
+    width: 312px!important;
+    text-align: center;
+}
+
+/* .is-invalid
+{
+    display: none;
+} */

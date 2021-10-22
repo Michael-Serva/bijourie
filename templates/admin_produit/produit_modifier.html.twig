@@ -1,0 +1,137 @@
+{% extends "base.html.twig" %}
+
+{% block title %}{{ parent() }} | Dashboard | Modification {{ produit.titre}} {% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset("css/admin/produits.css") }}">
+    <link rel="stylesheet" href="{{ asset("css/admin/select2.css") }}">
+{% endblock %}
+
+{% block h1 %}Modification {{ produit.titre}} {% endblock %}
+
+{% block body %}
+
+    <div class="row justify-content-end">
+        <a class='btn btn-info p-2 col-md-3' href="{{ path('produit_afficher') }}">Retour</a>
+    </div>
+
+
+    {% for notification in app.flashes('success') %}
+            <div class="alert alert-success col-md-6 mx-auto text-center disparition">{{ notification }}</div>
+    {% endfor %}
+
+    <div class="col-md-4 mx-auto">
+
+        {{ form_start(formProduit) }}{# balise ouvrante form #}
+
+            {{ form_row(formProduit.titre) }}
+
+            {{ form_row(formProduit.prix) }}
+
+            {{ form_row(formProduit.stock) }}
+
+            {{ form_row(formProduit.category) }}
+
+
+            {{ form_row(formProduit.matieres) }}
+
+            {{ form_row(formProduit.imageFile , { 'attr' :  {"onChange" : "loadFile(event)"} }) }}
+
+            <div class="col-md-12 text-center " id="boxImage">
+            
+                <img id="image" 
+                
+                {% if produit.image %}
+                    {# src="{{ asset('images/imagesUpload/' ~ produit.image ) }}" #}
+                        src="{{ asset("images/imagesUpload/#{produit.image}") }}"
+                {% endif %}
+                
+                
+                style="width:300px">
+
+
+                {% if produit.image %}
+                    
+                    <a href="{{ path('image_produit_supprimer' , {'id' :  produit.id  }) }}" onclick="return confirm('Confirmez-vous la suppression de l'image ?')">
+                        <img src="{{ asset('images/delete.png') }}" alt="icône de suppression" >
+                    </a>
+                
+                {% endif %}
+            
+            </div>
+
+            {% if produit.image %}
+
+                <p>Retirer l'image ?</p>
+
+         
+                <label><input type="radio" name="imageQuestion" value="non" checked> Non</label>
+
+
+              
+                <label><input type="radio"  name="imageQuestion" value="oui"> Oui</label>
+              
+
+            {% endif %}
+
+
+            <input type="submit" class="btn btn-success col-md-12 mt-3" value="Modifier"> 
+
+        {{ form_end(formProduit) }}{# balise fermante form #}
+
+    </div>
+
+
+{% endblock %}
+
+
+{% block javascripts %}
+<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+
+<script>
+let $delete = $('#delete');
+
+$delete.click(function() {
+
+console.log("yes");
+
+var url = "{{ path('supprimer_image_ajax') }}";
+
+var data = {
+  'id': "{{ produit.id }}",
+};
+  console.log(data);
+
+$.ajax({ 
+method: 'post',
+dataType: 'json',
+url: url,
+data: data,
+
+    success: function (response)
+    {
+
+        console.log('ok');
+        document.querySelector('#boxImage').classList.add('d-none');
+
+
+    },
+
+    error: function () 
+    {
+        alert("erreur");
+    }
+});
+
+});
+</script>
+
+<script src="{{ asset('js/jquery.min.js') }}"></script>
+<script src="{{ asset('js/select2.js') }}"></script>
+<script>
+    $(function(){
+        $('.select2').select2()
+    })
+</script>
+{% endblock %}
+

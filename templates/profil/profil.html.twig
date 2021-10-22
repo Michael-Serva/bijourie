@@ -1,0 +1,41 @@
+{% extends "base.html.twig" %}
+
+{% block title %}{{ parent() }} | Profil{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset("css/profil.css") }}">
+{% endblock %}
+
+{% block h1 %}Profil{% endblock %}
+
+{% block body %}
+
+
+    {% for notification in app.flashes('success') %}
+            <div class="alert alert-success col-md-6 mx-auto text-center disparition">{{ notification }}</div>
+    {% endfor %}
+
+
+
+
+
+<div class="list-group col-md-6 mx-auto mt-3">
+  <button type="button" class="list-group-item list-group-item-action">Nom : <strong>{{ app.user.nom }}</strong></button>
+  <button type="button" class="list-group-item list-group-item-action">Prénom : <strong>{{ app.user.prenom }}</strong></button>
+  <button type="button" class="list-group-item list-group-item-action">Email : <strong>{{ app.user.email }}</strong></button>
+</div>
+
+
+<div class="row justify-content-between col-md-6 mx-auto mt-3">
+
+    <a class="btn btn-warning col-md-5" href="{{ path('profil_modification') }}">Modifier votre profil</a>
+    <a class="btn btn-primary col-md-5" href="{{ path('password_modification') }}">Modifier votre mot de passe</a>
+
+</div>
+
+
+
+
+
+{% endblock %}
+

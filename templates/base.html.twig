@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}Bijouterie{% endblock %}</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+        {# <link rel="stylesheet" href="https://bootswatch.com/5/minty/bootstrap.min.css"> #}
+        <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+        {% block stylesheets %}{% endblock %}
+    </head>
+
+    <body>
+
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-info">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">{{ "Jewerly"|trans}}</a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('accueil') }}">Accueil</a>
+
+                        {#
+                        pour créer un lien on utilise la fonction path() de twig (donc entre interpollation)
+                        path() doit obligatoirement avoir 1 argument : le name="" de la route
+                        il peut avoir un 2e qui est facultatif : TABLEAU
+
+                        #}
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('pageName') }}">Page</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('contactName') }}">Contact</a>
+                    </li>
+                    
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('catalogue') }}">Catalogue</a>
+                    </li>
+                
+                </ul>
+                <ul class="navbar-nav" style="width:370px">
+
+
+
+
+                    {% if not app.user %} {# s'il n'y a pas de tableau user dans app c'est qu'il n'y a pas d'utilisateur connecté #}
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('inscription') }}">Inscription</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('connexion') }}">Connexion</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('panier') }}">Panier</a>
+                        </li>
+
+                    {% else %}{# sinon il y a le tableau user dans app c'est qu'il y a un utilisateur connecté #}
+                        
+
+                        {% if is_granted('ROLE_USER') %}
+                            
+                            <li class="nav-item dropdown">
+
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    {{ app.user.prenom }}
+                                </a>
+
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <li><a class="dropdown-item" href="{{ path('profil') }}">Profil</a></li>
+                                    <li><a class="dropdown-item" href="{{ path('panier') }}">Panier</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" href="{{ path('deconnexion') }}">Déconnexion</a></li>
+                                </ul>
+
+                            </li>
+
+                        {% elseif is_granted('ROLE_ADMIN') %}
+
+                            <li class="nav-item dropdown">
+
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Admin
+                                </a>
+
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <li><a class="dropdown-item" href="{{ path('profil') }}">Profil</a></li>
+                                    <li><a class="dropdown-item" href="{{ path('panier') }}">Panier</a></li>
+                                    <li><a class="dropdown-item" href="{{ path('dashboard') }}">Dashoboard</a></li>
+                                    <li><a class="dropdown-item" href="{{ path('produit_afficher') }}">Gestion des produits</a></li>
+                                    <li><a class="dropdown-item" href="{{ path('category_afficher') }}">Gestion des catégories</a></li>
+                                    <li><a class="dropdown-item" href="{{ path('matiere_afficher') }}">Gestion des matières</a></li>
+                                    
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" href="{{ path('deconnexion') }}">Déconnexion</a></li>
+                                </ul>
+
+                            </li>
+                            
+                        {% endif %}
+
+
+
+                    {% endif %}
+
+                        <li>
+                            {% for locale in locales %}
+{% if locale != app.request.locale %}
+
+                                <a href="{{ path('change_locale' , { 'locale' : locale}) }}">{{ locale }}</a>
+                                {% endif %}
+                            {% endfor %}
+                        </li>
+
+                </ul>
+ 
+            </div>
+        </div>
+    </nav>
+
+        <div class="container">
+
+            <h1 class="text-center">{% block h1 %}{% endblock %}</h1>
+            
+            {% block body %}
+            
+            
+            {% endblock %}
+
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+        <script src="{{ asset('js/script.js') }}"></script>
+        {% block javascripts %}{% endblock %}
+    </body>
+
+</html>

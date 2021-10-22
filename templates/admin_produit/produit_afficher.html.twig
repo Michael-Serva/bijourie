@@ -1,0 +1,133 @@
+{% extends "base.html.twig" %}
+
+{% block title %}{{ parent() }} | Dashboard | Gestion des produits{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset("css/admin/produits.css") }}">
+{% endblock %}
+
+{% block h1 %}Gestion des produits{% endblock %}
+
+{% block body %}
+
+
+    {# il existe une variable d'environnement : app  #}
+
+    {% for notification in app.flashes('success') %}
+            <div class="alert alert-success col-md-6 mx-auto text-center disparition">{{ notification }}</div>
+    {% endfor %}
+
+
+    <div class="row justify-content-end m-2">
+        <a class='btn btn-success p-2 col-md-3' href="{{ path('produit_ajouter') }}">Ajouter un produit</a>
+    </div>
+        {# Si produits n'est pas vide, je les affiche #}
+    {% if produits is not empty %} {# on peut écrire aussi juste if produits (si produits n'est pas vide) #}
+        
+        <table class="table table-hover table-striped text-center">
+
+            <thead class="bg-dark text-white">
+
+                <tr>
+                
+                    <th>ID</th>
+                    <th>Titre</th>
+                    <th>Prix (€)</th>
+                    <th>Image</th>
+                    <th>Catégorie</th>
+                    <th>Matières</th>
+                    <th>Stock</th>
+                    <th>Date</th>
+                    <th>Modifier</th>
+                    <th>Supprimer</th>
+                
+                </tr>
+            
+            
+            </thead>
+
+
+            <tbody>
+            
+                {% for produit in produits %}
+                    <tr class="align-middle">
+
+                        <td >
+                            <a href="{{ path('fiche_produit' , {'id' : produit.id } ) }}">
+                                {{ produit.id }}
+                            </a>
+                        </td>
+                        <td>{{ produit.titre }}</td>
+                        <td>{{ micky(produit.prix) }}</td>
+
+                        <td>
+
+                            {% if produit.image is not empty %}
+                                <img src="{{ asset('images/imagesUpload/' ~ produit.image ) }}" style='width:80px' alt="">
+                            {% else %}
+                                <img src="{{ asset('images/imageDefault.jpg') }}" style='width:80px' alt="image par défaut">
+                            {% endif %}
+
+
+                        
+                        
+                        
+                        </td>
+
+                        <td>{{ produit.category.nom }}</td>
+
+                        <td>
+
+                            {% for matiereObjet in produit.matieres %}
+                            
+                                {% if  matiereObjet == produit.matieres|last %}
+                                    {{ matiereObjet.nom }}
+                                {% else %}
+                                    {{ matiereObjet.nom }} /
+                                {% endif %}
+
+                            {% endfor %}
+                        
+                        
+                        </td>
+
+                        <td>{{ produit.stock }}</td>
+
+
+                        <td>{{ produit.newDate|raw }}</td>
+
+                        <td>
+                            <a href="{{ path('produit_modifier' , {"id" : produit.id }  ) }}" >
+                                <img src="{{ asset('images/update.png') }}" alt="icône de modification">
+                            </a>
+                        </td>
+
+
+
+                        <td>
+                            <a href="{{ path('produit_supprimer' , {"id" : produit.id }  ) }}" onclick="return confirm('Confirmez-vous la suppression du produit ?')">
+                                <img src="{{ asset('images/delete.png') }}" alt="icône de suppression">
+                            </a>
+                        </td>
+                    
+                    
+                    
+                    </tr>
+                {% endfor %}
+            
+            
+            </tbody>
+        
+        
+        </table>
+
+
+        {# Sinon produits est vide, j'affiche un message #}
+    {% else %}
+        <h4 class="text-danger fst-italic text-center mt-3">Il n'y a aucun produit pour le moment</h4>
+    {% endif %}
+
+
+
+
+{% endblock %}

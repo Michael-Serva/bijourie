@@ -1,0 +1,85 @@
+{% extends "base.html.twig" %}
+
+{% block title %}{{ parent() }} | Dashboard | Gestion des matières{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset("css/admin/matieres.css") }}">
+{% endblock %}
+
+{% block h1 %}Gestion des matières{% endblock %}
+
+{% block body %}
+
+
+
+    {% for notification in app.flashes('success') %}
+            <div class="alert alert-success col-md-6 mx-auto text-center disparition">{{ notification }}</div>
+    {% endfor %}
+
+
+    <div class="row justify-content-end m-2">
+        <a class='btn btn-success p-2 col-md-3' href="{{ path('matiere_ajouter') }}">Ajouter une matière</a>
+    </div>
+       
+    {% if matieres %} 
+        
+        <table class="table table-hover table-striped text-center">
+
+            <thead class="bg-dark text-white">
+
+                <tr>
+                
+                    <th>ID</th>
+                    <th>Nom</th>
+                    <th>Modifier</th>
+                    <th>Supprimer</th>
+                
+                </tr>
+            
+            
+            </thead>
+
+
+            <tbody>
+            
+                {% for matiere in matieres %}
+                    <tr class="align-middle">
+
+                        <td >{{ matiere.id }}</td>
+                        <td>{{ matiere.nom }}</td>
+                    
+
+                        <td>
+                            <a href="{{ path('matiere_modifier' , {"id" : matiere.id }  ) }}" >
+                                <img src="{{ asset('images/update.png') }}" alt="icône de modification">
+                            </a>
+                        </td>
+
+
+
+                        <td>
+                            <a href="{{ path('matiere_supprimer' , {"id" : matiere.id }  ) }}" onclick="return confirm('Confirmez-vous la suppression de la matière ?')">
+                                <img src="{{ asset('images/delete.png') }}" alt="icône de suppression">
+                            </a>
+                        </td>
+                    
+                    
+                    
+                    </tr>
+                {% endfor %}
+            
+            
+            </tbody>
+        
+        
+        </table>
+
+
+    {% else %}
+        <h4 class="text-danger fst-italic text-center mt-3">Il n'y a aucune matière pour le moment</h4>
+    {% endif %}
+
+
+
+
+{% endblock %}

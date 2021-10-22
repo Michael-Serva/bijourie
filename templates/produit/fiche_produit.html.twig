@@ -1,0 +1,94 @@
+{% extends "base.html.twig" %}
+
+{% block title %}{{ parent() }} | {{ produit.titre}}{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset("css/fiche_produit.css") }}">
+{% endblock %}
+
+{% block h1 %} {{ produit.titre}} {% endblock %}
+
+{% block body %}
+
+    <div class="row justify-content-end">
+        <a class='btn btn-info p-2 col-md-3' href="{{ path('catalogue') }}">Retour</a>
+    </div>
+
+
+    <div class="row justify-content-center">
+    {% if produit.image %}
+        <img src="{{ asset('images/imagesUpload/' ~ produit.image ) }}" style='width:300px' alt="">
+    {% else %}
+        <img src="{{ asset('images/imageDefault.jpg') }}" style='width:300px' alt="">
+    {% endif %}
+    </div>
+
+    <div class="row justify-content-center">
+        <h2 class="text-center btn btn-outline-danger p-2 col-md-4">Prix : {{produit.prix}} €</h2>
+    </div>
+
+    <div class="row justify-content-center">
+        <h2 class="text-center btn btn-outline-primary p-2 col-md-4">Catégorie : {{produit.category.nom}} </h2>
+    </div>
+
+    {% if produit.matieres is not empty %}
+            <div class="row justify-content-center">
+                <h2 class="text-center btn btn-outline-secondary p-2 col-md-4">Matières : 
+                    {% for matiereObjet in produit.matieres %}
+                        {{ matiereObjet.nom }} <br>
+                    {% endfor %} 
+                </h2>
+            </div>
+    {% endif %}
+
+
+    {# <div class="row justify-content-center">
+        <h2 class="text-center p-2 col-md-4">{{produit.dateAt|date("d/m/Y")}} </h2>
+    </div> #}
+    <div class="row justify-content-center">
+        <h2 class="text-center p-2 col-md-4">{{ produit.newDate|raw }} </h2>
+    </div>
+
+    {% if produit.stock %}
+
+        {% if produit.stock > 10 %}
+            {% set quantity = 10 %}
+        {% else %}
+            {% set quantity = produit.stock %}
+        {% endif %}
+
+        <form action="{{ path('panier_add') }}" method="post">
+
+            <div class="row">
+        
+                <div class="col-md-6">
+                    <select name="quantite" class="form-control">
+
+                        {% for i in 1.. quantity %}
+
+                            <option value="{{i}}">{{i}}</option>
+
+                        {% endfor %}
+                        
+                    </select>
+                </div>
+
+                <input type="hidden" value="{{produit.id}}" name="id">
+
+                <div class="col-md-4">
+                    <button type="submit" style="border:none; background:transparent">
+                        <img src="{{ asset('images/cart.png') }}" style="width:50px">
+                    </button>
+                </div>
+
+            </div>
+        
+        </form>
+
+
+    {% else %}
+        <h4 class="text-center text-danger fst-italic">Rupture de stock</h4>
+    {% endif %}
+
+{% endblock %}
+

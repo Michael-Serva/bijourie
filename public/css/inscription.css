@@ -1,0 +1,17 @@
+.form-error-icon
+{
+    display: none;
+}
+
+.form-error-message
+{
+    
+    text-align: center;
+    color:orangered;
+}
+.invalid-feedback
+{
+    display: block;
+    width: 312px!important;
+    text-align: center;
+}

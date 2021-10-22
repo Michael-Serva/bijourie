@@ -1,0 +1,31 @@
+{% extends "base.html.twig" %}
+
+{% block title %}{{ parent() }} | Accueil{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset("css/accueil.css") }}">
+{% endblock %}
+
+{% block h1 %}Accueil{% endblock %}
+
+{% block body %}
+
+
+{# la variable d'environnement app est similaire à la superglobale SESSION
+on y trouve les flashes, les messages créés par la méthode addFlash()
+mais également si un utilisateur est connecté, on trouvera un tableau user 
+app.user  #}
+{# {{ dump(app)}} #}
+<h2> Bonjour
+{% if app.user %}
+    {{app.user.prenom}}
+{% else %}
+    inconnu
+{% endif %}
+</h2>
+
+
+
+
+{% endblock %}
+

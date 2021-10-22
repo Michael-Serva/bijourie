@@ -1,0 +1,66 @@
+{% extends "base.html.twig" %}
+
+{% block title %}{{ parent() }} | Catalogue{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset("css/catalogue.css") }}">
+{% endblock %}
+
+{% block h1 %}Catalogue{% endblock %}
+
+{% block body %}
+
+
+        {# Si produits n'est pas vide, je les affiche #}
+    {% if produits is not empty %} {# on peut écrire aussi juste if produits (si produits n'est pas vide) #}
+        
+        <div class="row justify-content-around">
+        
+            {% for produit in produits %}
+                
+                <div class="col-md-3 col-sm-5 col-12 m-2 shadowBox mt-4">
+                
+                    <h5 class="text-center mt-3">{{ produit.titre }}</h5>
+
+                    <div class="row justify-content-center">
+                        {% if produit.image %}
+                            <img src="{{ asset('images/imagesUpload/' ~ produit.image ) }}" style='width:150px' alt="">
+                        {% else %}
+                            <img src="{{ asset('images/imageDefault.jpg')  }}" style='width:150px' alt="">
+                        {% endif %}
+                    </div>
+
+
+                    <div class="row justify-content-between mb-2">
+                        <h4 class="col-md-5">{{ produit.prix }} €</h4>
+                        <a class="btn btn-outline-info col-md-3 me-2" href="{{   path('fiche_produit'  ,  {"id" : produit.id} )   }}">Voir</a>
+
+                        {#
+                            PHP :           [ "k"  =>   "v"]
+
+                            TWIG :          { "k"  :  "v"  }
+                        #}
+                    </div>
+
+                
+                </div>
+
+
+
+
+
+            {% endfor %}
+        
+        
+        </div>
+
+
+        {# Sinon produits est vide, j'affiche un message #}
+    {% else %}
+        <h4 class="text-danger fst-italic text-center mt-3">Il n'y a aucun produit pour le moment</h4>
+    {% endif %}
+
+
+
+
+{% endblock %}

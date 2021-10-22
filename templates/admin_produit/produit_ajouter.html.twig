@@ -1,0 +1,69 @@
+{% extends "base.html.twig" %}
+
+{% block title %}{{ parent() }} | Dashboard | Ajouter un produit{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset("css/admin/produits.css") }}">
+    <link rel="stylesheet" href="{{ asset("css/admin/select2.css") }}">
+{% endblock %}
+
+{% block h1 %}Ajouter un produit{% endblock %}
+
+{% block body %}
+
+    <div class="row justify-content-end">
+        <a class='btn btn-info p-2 col-md-3' href="{{ path('produit_afficher') }}">Retour</a>
+    </div>
+
+     {# {{ form(formProduit) }}  la form appelle tout le formulaire, au niveau des balises c'est form ouvrant et fermant #}
+
+    <div class="col-md-4 mx-auto">
+
+        {{ form_start(formProduit) }}{# balise ouvrante form #}
+
+            {{ form_row(formProduit.titre) }}
+
+            {{ form_row(formProduit.prix) }}
+
+            {{ form_row(formProduit.stock) }}
+
+            {{ form_row(formProduit.category) }}
+
+            {{ form_row(formProduit.matieres) }}
+
+            {{ form_row(formProduit.image , { 'attr' :  {"onChange" : "loadFile(event)"} }) }}
+
+            <div class="row justify-content-center">
+            
+                <img id="image" style="width:300px">
+            
+            </div>
+
+
+            <input type="submit" class="btn btn-success col-md-12 mt-3" value="Ajouter"> 
+
+        {{ form_end(formProduit) }}{# balise fermante form #}
+
+    </div>
+    
+
+{% endblock %}
+
+{% block javascripts %}
+
+{# <script>
+    let loadFile = function(event){
+        let image = document.getElementById('image');
+        image.src = URL.createObjectURL(event.target.files[0]);
+    };
+</script> #}
+
+<script src="{{ asset('js/jquery.min.js') }}"></script>
+<script src="{{ asset('js/select2.js') }}"></script>
+<script>
+    $(function(){
+        $('.select2').select2()
+    })
+</script>
+
+{% endblock %}

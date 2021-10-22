@@ -1,0 +1,37 @@
+{% extends "base.html.twig" %}
+
+{% block title %}{{ parent() }} | Connexion{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset("css/connexion.css") }}">
+{% endblock %}
+
+{% block h1 %}Connexion{% endblock %}
+
+{% block body %}
+
+    {% for notification in app.flashes('success') %}
+        <div class="alert alert-success col-md-6 mx-auto text-center disparition">{{ notification }}</div>
+    {% endfor %}
+    
+
+    <form action="{{ path('connexion') }}" method="post" class="col-md-4 mx-auto text-center">
+    
+        <div class="form-group">
+            <label for="inputEmail">Email</label>
+            <input type="text" id="inputEmail" class="form-control" name="_username">
+        </div>
+
+
+        <div class="form-group">
+            <label for="inputPassword">Mot de passe</label>
+            <input type="text" id="inputPassword" class="form-control" name="_password">
+        </div>
+
+        <input type="submit" value="Connexion" class="col-md-12 btn btn-danger mt-3">
+    
+    
+    </form>
+
+{% endblock %}
+

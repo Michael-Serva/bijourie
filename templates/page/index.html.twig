@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}{# héritage du fichier base.html.twig #}
+
+{% block title %}{{ parent() }} | c'est le twig page{% endblock %}
+
+{# parent() permet de récupérer la valeur du title dans la base.html.twig  #}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset("css/page.css") }}">
+{% endblock %}
+
+{% block h1 %}Titre PAGE{% endblock %}
+
+{% block body %}
+
+    <h2>Bonjour je m'appelle {{ prenom }} et j'ai {{ ageTwig }} ans</h2>
+
+
+
+    {% if ageTwig > 18 %}
+        <h2>majeur</h2>
+    {% else %}
+        <h2>mineur</h2>
+    {% endif %}
+
+    
+
+{% endblock %}
+
+
+
+{# commentaire en twig #}
+{# {{  interpollation : variable }} #}
+{# {% if  %}  instructions for if #}

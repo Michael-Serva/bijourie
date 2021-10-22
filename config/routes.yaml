@@ -1,0 +1,9 @@
+#index:                                                        name de la route
+#    path: /                                                   route
+#    controller: App\Controller\DefaultController::index       fonction reliée à la route
+
+
+# contactName:
+#       path: /contact
+#       controller: App\Controller\PageController::contactFunction
+#       methods: 

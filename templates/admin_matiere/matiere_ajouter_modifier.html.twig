@@ -1,0 +1,60 @@
+{% extends "base.html.twig" %}
+
+{% block title %}{{ parent() }} | Dashboard | 
+
+{% if modification %}
+    Modification {{ matiere.nom }}
+{% else %}
+    Ajouter une matière
+{% endif %}
+
+
+
+{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset("css/admin/produits.css") }}">
+{% endblock %}
+
+{% block h1 %}
+
+{% if modification %}
+    Modification {{ matiere.nom }}
+{% else %}
+    Ajouter une matière
+{% endif %}
+
+{% endblock %}
+
+{% block body %}
+
+    <div class="row justify-content-end">
+        <a class='btn btn-info p-2 col-md-3' href="{{ path('matiere_afficher') }}">Retour</a>
+    </div>
+
+
+
+    <div class="col-md-4 mx-auto">
+
+        {{ form_start(formMatiere) }}
+
+            {{ form_row(formMatiere.nom) }}
+
+            <input type="submit" 
+
+            {% if modification %}
+              class="btn btn-danger col-md-12 mt-3"  value="modifier"
+            {% else %}
+              class="btn btn-warning col-md-12 mt-3"  value="Ajouter"
+            {% endif %} 
+            > 
+            
+            
+
+        {{ form_end(formMatiere) }}
+
+    </div>
+    
+
+{% endblock %}
+

@@ -1,0 +1,64 @@
+{% extends 'base.html.twig' %} {# étendre le fichier base.html.twig #}
+
+{% block title %} {{parent()}} | 
+
+    {% if modification %}
+        Modifier {{categorie.nom}}
+    {% else %}
+        Ajouter une catégorie
+    {% endif %}
+
+{% endblock %}
+
+
+{% block h1 %}
+
+    {% if modification %}
+        Modifier {{categorie.nom}}
+    {% else %}
+        Ajouter une catégorie
+    {% endif %}
+
+{% endblock %}
+
+
+{% block body %}
+
+
+    <div class="row justify-content-end">
+        <a class='btn btn-info p-2 col-md-3' href="{{ path('category_afficher') }}">Retour</a>
+    </div>
+
+
+
+    <div class="col-md-4 mx-auto">
+
+        {{ form_start(formCategory) }} 
+
+            <div class="col-md-6 mx-auto">
+                {{ form_row(formCategory.nom) }}
+            </div>
+
+
+            <div class="row justify-content-center">
+                <input type="submit" class="btn btn-success mt-3 col-md-6"
+
+                    {% if modification %}
+                    value="Modifier" 
+                    {% else %}
+                    value="Ajouter" 
+                    {% endif %}
+                
+                >
+
+
+            </div>
+               
+        {{ form_end(formCategory) }}
+
+    </div>
+
+
+{% endblock %}
+
+
